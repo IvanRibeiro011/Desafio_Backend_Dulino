@@ -5,6 +5,7 @@ import com.dulino.desafio.dtos.request.WorkshopTaskUpdateDTO;
 import com.dulino.desafio.dtos.response.WorkshopTaskDTO;
 import com.dulino.desafio.service.WorkshopTaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class WorkShopTaskController {
     }
 
     @Operation(summary = "Busca todas as Tarefas")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<WorkshopTaskDTO>> findAll() {
@@ -33,6 +35,7 @@ public class WorkShopTaskController {
     }
 
     @Operation(summary = "Busca tarefas por id")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("{id}")
     public ResponseEntity<WorkshopTaskDTO> findById(@PathVariable("id") String id) {
@@ -40,6 +43,7 @@ public class WorkShopTaskController {
     }
 
     @Operation(summary = "Insere tarefas no banco de dados")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PostMapping
     public ResponseEntity<WorkshopTaskDTO> insert(@Valid @RequestBody WorkShopTaskInsertDTO dto) {
@@ -47,6 +51,7 @@ public class WorkShopTaskController {
     }
 
     @Operation(summary = "Atualiza tarefas")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PutMapping("{id}")
     public ResponseEntity<WorkshopTaskDTO> update(@PathVariable("id") String id, @Valid @RequestBody WorkshopTaskUpdateDTO dto) {
@@ -54,6 +59,7 @@ public class WorkShopTaskController {
     }
 
     @Operation(summary = "Deleta tarefas")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id) {

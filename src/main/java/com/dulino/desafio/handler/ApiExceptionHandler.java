@@ -19,25 +19,25 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     ResponseEntity<ApiErrorMessage> userNotFoundException(UserNotFoundException e, HttpServletRequest request){
-        return resourcesNotFoundMessageCreation(request, e.getMessage(), e);
+        return resourcesNotFoundMessageCreation(request, e.getMessage());
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     ResponseEntity<ApiErrorMessage> userAlreadyExists(UserAlreadyExistsException e, HttpServletRequest request){
-        return resourceAlreadyExistsMessageCreation(request, e.getMessage(), e);
+        return resourceAlreadyExistsMessageCreation(request, e.getMessage());
     }
     @ExceptionHandler(VehicleNotFoundException.class)
     ResponseEntity<ApiErrorMessage> vehicleNotFound(VehicleNotFoundException e, HttpServletRequest request){
-        return resourcesNotFoundMessageCreation(request, e.getMessage(), e);
+        return resourcesNotFoundMessageCreation(request, e.getMessage());
     }
 
     @ExceptionHandler(VehiclePlateAlreadyRegisteredException.class)
     ResponseEntity<ApiErrorMessage> vehiclePlateAlreadyRegistered(VehiclePlateAlreadyRegisteredException e, HttpServletRequest request){
-        return resourceAlreadyExistsMessageCreation(request, e.getMessage(), e);
+        return resourceAlreadyExistsMessageCreation(request, e.getMessage());
     }
     @ExceptionHandler(TaskNotFoundException.class)
     ResponseEntity<ApiErrorMessage> taskNotFound(TaskNotFoundException e,HttpServletRequest request){
-        return resourcesNotFoundMessageCreation(request, e.getMessage(), e);
+        return resourcesNotFoundMessageCreation(request, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -59,15 +59,15 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     ResponseEntity<ApiErrorMessage> usernameNotFound(UsernameNotFoundException e,HttpServletRequest request){
-        return resourcesNotFoundMessageCreation(request, e.getMessage(), e);
+        return resourcesNotFoundMessageCreation(request, e.getMessage());
     }
 
     @ExceptionHandler(NonExistentRoleException.class)
     ResponseEntity<ApiErrorMessage> nonExistingRole(NonExistentRoleException e, HttpServletRequest request){
-        return resourcesNotFoundMessageCreation(request, e.getMessage(), e);
+        return resourcesNotFoundMessageCreation(request, e.getMessage());
     }
 
-    private <T> ResponseEntity<ApiErrorMessage> resourceAlreadyExistsMessageCreation(HttpServletRequest request, String message, T e) {
+    private ResponseEntity<ApiErrorMessage> resourceAlreadyExistsMessageCreation(HttpServletRequest request, String message) {
         HttpStatus status = HttpStatus.NOT_ACCEPTABLE;
         ApiErrorMessage err = new ApiErrorMessage();
         err.setTimestamp(Instant.now());
@@ -78,7 +78,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    private <T> ResponseEntity<ApiErrorMessage> resourcesNotFoundMessageCreation(HttpServletRequest request, String message, T e) {
+    private ResponseEntity<ApiErrorMessage> resourcesNotFoundMessageCreation(HttpServletRequest request, String message) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ApiErrorMessage err = new ApiErrorMessage();
         err.setTimestamp(Instant.now());

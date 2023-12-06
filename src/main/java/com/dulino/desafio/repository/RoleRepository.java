@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface RoleRepository extends MongoRepository<Role,String> {
     Optional<Role> findByAuthority(String name);
     boolean existsByAuthorityIn(List<String> authorities);
+
+    List<Role> findByAuthorityIn(List<String> authorities);
 }

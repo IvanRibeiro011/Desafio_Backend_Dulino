@@ -5,6 +5,7 @@ import com.dulino.desafio.dtos.response.UserDTO;
 import com.dulino.desafio.dtos.request.UserUpdateDTO;
 import com.dulino.desafio.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,14 @@ public class UserController {
         this.service = service;
     }
     @Operation(summary = "Busca todos os usuários")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
     @Operation(summary = "Busca usuários por Id")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable("id") String id) {
@@ -37,18 +40,21 @@ public class UserController {
     }
 
     @Operation(summary = "Insere usuário no banco de dados")
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(dto));
     }
 
     @Operation(summary = "Atualiza usuário passando o Id e os campos a serem atualizados")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> update(@PathVariable("id") String id,@Valid @RequestBody UserUpdateDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
     @Operation(summary = "Deleta um usuário")
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id")String id){
